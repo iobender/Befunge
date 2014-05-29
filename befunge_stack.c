@@ -1,15 +1,16 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include "befunge_stack.h"
 
-#define DEFAULT_INIT_STACK_SIZE 64
+#define DEFAULT_INIT_STACK_CAPACITY 64
 
-int bf_init(struct befunge_stack * stack) {
-	stack= malloc(sizeof(struct befunge_stack));
-	if(!stack) return 0;
-	stack->size= 0;
-	stack->capacity= DEFAULT_INIT_STACK_SIZE;
-	stack->data= malloc(stack->capacity * sizeof(int));
-	return stack->data != NULL;
+int bf_init(struct befunge_stack ** stack) {
+	*stack= malloc(sizeof(struct befunge_stack));
+	if(!*stack) return 0;
+	(*stack)->size= 0;
+	(*stack)->capacity= DEFAULT_INIT_STACK_CAPACITY;
+	(*stack)->data= malloc((*stack)->capacity * sizeof(int));
+	return (*stack)->data != NULL;
 }
 
 int bf_push(struct befunge_stack * stack, int elt) {
@@ -18,6 +19,7 @@ int bf_push(struct befunge_stack * stack, int elt) {
 		int * new= realloc(stack->data, 2 * stack->capacity * sizeof(int));
 		if(new) {
 			stack->data= new;
+			stack->capacity *= 2;
 		} else {
 			return 0;
 		}

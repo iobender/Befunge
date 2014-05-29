@@ -7,7 +7,7 @@ struct befunge_stack {
 	int capacity;
 };
 
-int bs_init(struct befunge_stack * stack);
+int bs_init(struct befunge_stack ** stack);
 
 int bs_push(struct befunge_stack * stack, int elt);
 int bs_pop(struct befunge_stack * stack);
