@@ -4,16 +4,15 @@
 
 #define DEFAULT_INIT_STACK_CAPACITY 64
 
-int bfs_init(struct befunge_stack ** stack) {
-	*stack= malloc(sizeof(struct befunge_stack));
-	if(!*stack) return 0;
-	(*stack)->size= 0;
-	(*stack)->capacity= DEFAULT_INIT_STACK_CAPACITY;
-	(*stack)->data= malloc((*stack)->capacity * sizeof(int));
-	return (*stack)->data != NULL;
+int bfs_init(struct befunge_stack * stack) {
+	stack->size= 0;
+	stack->capacity= DEFAULT_INIT_STACK_CAPACITY;
+	stack->data= malloc(stack->capacity * sizeof(int));
+	return stack->data != NULL;
 }
 
 int bfs_push(struct befunge_stack * stack, int elt) {
+	printf("pushing %d\n", elt);
 	/* check if we need more space for stack. Separate into own function */
 	if(stack->size == stack->capacity) {
 		int * new= realloc(stack->data, 2 * stack->capacity * sizeof(int));
