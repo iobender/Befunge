@@ -25,6 +25,8 @@ struct befunge_program {
 	struct delta dir; /* execution flow direction */
 };
 
+int bf_init(struct befunge_program * bf);
+
 int bf_load_code(struct befunge_program * bf, FILE * file);
 
 #endif

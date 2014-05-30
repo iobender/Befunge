@@ -3,6 +3,10 @@
 #include "befunge.h"
 #include "befunge_stack.h"
 
+int bf_init(struct befunge_program * bf) {
+
+}
+
 int bf_load_code(struct befunge_program * bf, FILE * file) {
 	int row, col;
 	for(row= 0; row < PROGRAM_ROWS; row++) {
@@ -16,6 +20,5 @@ int bf_load_code(struct befunge_program * bf, FILE * file) {
 		*strchr(bf->code[row], '\n')= ' ';
 		bf->code[row][strlen(bf->code[row])]= ' ';
 	}
-	/* printf("read %d rows\n", row); */
 }
 
