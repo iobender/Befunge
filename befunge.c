@@ -47,3 +47,10 @@ int bf_load_code(struct befunge_program * bf, FILE * file) {
 	}
 }
 
+void bf_run(struct befunge_program * bf) {
+	printf("%c\n", bf->code[bf->ip.row][bf->ip.col]);
+}
+
+void bf_destroy(struct befunge_program * bf) {
+	bfs_destroy(&bf->stack);
+}

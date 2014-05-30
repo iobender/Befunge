@@ -31,4 +31,8 @@ int bf_init(struct befunge_program * bf);
 
 int bf_load_code(struct befunge_program * bf, FILE * file);
 
+void bf_run(struct befunge_program * bf);
+
+void bf_destroy(struct befunge_program * bf);
+
 #endif
