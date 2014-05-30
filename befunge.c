@@ -3,8 +3,33 @@
 #include "befunge.h"
 #include "befunge_stack.h"
 
-int bf_init(struct befunge_program * bf) {
+void dirset(struct delta * dir, enum EDIRECTION where) {
+	switch(where) {
+		case UP:
+			dir->dx= 0;
+			dir->dy= -1;
+			break;
+		case DOWN:
+			dir->dx= 0;
+			dir->dy= 1;
+			break;
+		case LEFT:
+			dir->dx= -1;
+			dir->dy= 0;
+			break;
+		case RIGHT:
+			dir->dx= 1;
+			dir->dy= 0;
+			break;
+	}
+}
 
+int bf_init(struct befunge_program * bf) {
+	if(!bfs_init(&bf->stack)) return 0;
+	bf->ip.row= 0;
+	bf->ip.col= 0;
+	dirset(&bf->dir, RIGHT);
+	return 1;
 }
 
 int bf_load_code(struct befunge_program * bf, FILE * file) {

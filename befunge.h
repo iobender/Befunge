@@ -18,6 +18,8 @@ struct delta {
 
 enum EDIRECTION { UP, DOWN, LEFT, RIGHT };
 
+void dirset(struct delta * dir, enum EDIRECTION where);
+
 struct befunge_program {
 	char code[PROGRAM_ROWS][PROGRAM_COLS]; /* befunge code */
 	struct befunge_stack stack; /* stack for data */
