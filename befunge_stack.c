@@ -7,15 +7,15 @@
 int bfs_init(struct befunge_stack * stack) {
 	stack->size= 0;
 	stack->capacity= DEFAULT_INIT_STACK_CAPACITY;
-	stack->data= malloc(stack->capacity * sizeof(int));
+	stack->data= malloc(stack->capacity * sizeof(char));
 	return stack->data != NULL;
 }
 
-int bfs_push(struct befunge_stack * stack, int elt) {
+char bfs_push(struct befunge_stack * stack, char elt) {
 	printf("pushing %d\n", elt);
 	/* check if we need more space for stack. Separate into own function */
 	if(stack->size == stack->capacity) {
-		int * new= realloc(stack->data, 2 * stack->capacity * sizeof(int));
+		char * new= realloc(stack->data, 2 * stack->capacity * sizeof(char));
 		if(new) {
 			stack->data= new;
 			stack->capacity *= 2;
@@ -27,7 +27,7 @@ int bfs_push(struct befunge_stack * stack, int elt) {
 	return 1;
 }
 
-int bfs_pop(struct befunge_stack * stack) {
+char bfs_pop(struct befunge_stack * stack) {
 	if(stack->size) {
 		return stack->data[--stack->size];
 	} else {
@@ -35,7 +35,7 @@ int bfs_pop(struct befunge_stack * stack) {
 	}
 }
 
-int bfs_peek(struct befunge_stack * stack) {
+char bfs_peek(struct befunge_stack * stack) {
 	if(stack->size) {
 		return stack->data[stack->size - 1];
 	} else {
