@@ -4,7 +4,7 @@
 
 #define DEFAULT_INIT_STACK_CAPACITY 64
 
-int bf_init(struct befunge_stack ** stack) {
+int bfs_init(struct befunge_stack ** stack) {
 	*stack= malloc(sizeof(struct befunge_stack));
 	if(!*stack) return 0;
 	(*stack)->size= 0;
@@ -13,7 +13,7 @@ int bf_init(struct befunge_stack ** stack) {
 	return (*stack)->data != NULL;
 }
 
-int bf_push(struct befunge_stack * stack, int elt) {
+int bfs_push(struct befunge_stack * stack, int elt) {
 	/* check if we need more space for stack. Separate into own function */
 	if(stack->size == stack->capacity) {
 		int * new= realloc(stack->data, 2 * stack->capacity * sizeof(int));
@@ -28,7 +28,7 @@ int bf_push(struct befunge_stack * stack, int elt) {
 	return 1;
 }
 
-int bf_pop(struct befunge_stack * stack) {
+int bfs_pop(struct befunge_stack * stack) {
 	if(stack->size) {
 		return stack->data[--stack->size];
 	} else {
@@ -36,7 +36,7 @@ int bf_pop(struct befunge_stack * stack) {
 	}
 }
 
-int bf_peek(struct befunge_stack * stack) {
+int bfs_peek(struct befunge_stack * stack) {
 	if(stack->size) {
 		return stack->data[stack->size - 1];
 	} else {
@@ -44,7 +44,7 @@ int bf_peek(struct befunge_stack * stack) {
 	}
 }
 
-void bf_destroy(struct befunge_stack * stack) {
+void bfs_destroy(struct befunge_stack * stack) {
 	free(stack->data);
 	free(stack);
 }
