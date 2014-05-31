@@ -55,17 +55,53 @@ void bf_moveip(struct befunge_program * bf) {
 void bf_run(struct befunge_program * bf) {
 	while(1) {
 		bf_process(bf);
-		printf("(%d %d) going (%d %d)\n", bf->ip.row, bf->ip.col, bf->dir.dy, bf->dir.dx);
 		bf_moveip(bf);
 	}
 }
 
 void bf_process(struct befunge_program * bf) {
+	struct befunge_stack * bs= &bf->stack;
 	char inst= bf->code[bf->ip.row][bf->ip.col];
+	char a, b;
+	printf("[%c]\n", inst);
 	if(inst >= '0' && inst <= '9') {
-		bfs_push(&bf->stack, inst - '0');
+		bfs_push(bs, inst - '0');
 	} else {
 		switch(inst) {
+			case '+':
+				a= bfs_pop(bs);
+				b= bfs_pop(bs);
+				bfs_push(bs, b + a);
+				break;
+			case '-':
+				a= bfs_pop(bs);
+				b= bfs_pop(bs);
+				bfs_push(bs, b - a);
+				break;
+			case '*':
+				a= bfs_pop(bs);
+				b= bfs_pop(bs);
+				bfs_push(bs, b * a);
+				break;
+			case '/':
+				a= bfs_pop(bs);
+				b= bfs_pop(bs);
+				bfs_push(bs, b / a); /* TODO: ask user if a is 0? */
+				break;
+			case '%':
+				a= bfs_pop(bs);
+				b= bfs_pop(bs);
+				bfs_push(bs, b % a); /* TODO: ask user if a is 0? */
+				break;
+			case '!':
+				a= bfs_pop(bs);
+				bfs_push(bs, !a);
+				break;
+			case '`':
+				a= bfs_pop(bs);
+				b= bfs_pop(bs);
+				bfs_push(bs, b > a); 
+				break;
 			case '^':
 				dirset(&bf->dir, UP);
 				break;
@@ -78,9 +114,13 @@ void bf_process(struct befunge_program * bf) {
 			case 'v':
 				dirset(&bf->dir, DOWN);
 				break;
-			
+			case '?':
+				srand(NULL);
+				dirset(&bf->dir, rand() % 4);
+				break;
 		}
 	}
+	bfs_print(bs);
 }
 
 void bf_destroy(struct befunge_program * bf) {

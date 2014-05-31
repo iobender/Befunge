@@ -16,7 +16,7 @@ struct delta {
 	int dy;
 };
 
-enum EDIRECTION { UP, DOWN, LEFT, RIGHT };
+enum EDIRECTION { UP= 0, DOWN= 1, LEFT= 2, RIGHT= 3 };
 
 void dirset(struct delta * dir, enum EDIRECTION where);
 
