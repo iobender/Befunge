@@ -26,6 +26,7 @@ void dirset(struct delta * dir, enum EDIRECTION where) {
 }
 
 int bf_init(struct befunge_program * bf) {
+	srand(90); 
 	if(!bfs_init(&bf->stack)) return 0;
 	bf->ip.row= 0;
 	bf->ip.col= 0;
@@ -67,119 +68,125 @@ void bf_process(struct befunge_program * bf) {
 	char inst= bf->code[bf->ip.row][bf->ip.col];
 	int a, b, v;
 	char c;
-	printf("[%c]\n", inst);
-	if(inst >= '0' && inst <= '9') {
-		bfs_push(bs, inst - '0');
-	} else {
-		switch(inst) {
-			case '+':
-				a= bfs_pop(bs);
-				b= bfs_pop(bs);
-				bfs_push(bs, b + a);
-				break;
-			case '-':
-				a= bfs_pop(bs);
-				b= bfs_pop(bs);
-				bfs_push(bs, b - a);
-				break;
-			case '*':
-				a= bfs_pop(bs);
-				b= bfs_pop(bs);
-				bfs_push(bs, b * a);
-				break;
-			case '/':
-				a= bfs_pop(bs);
-				b= bfs_pop(bs);
-				bfs_push(bs, b / a); /* TODO: ask user if a is 0? */
-				break;
-			case '%':
-				a= bfs_pop(bs);
-				b= bfs_pop(bs);
-				bfs_push(bs, b % a); /* TODO: ask user if a is 0? */
-				break;
-			case '!':
-				a= bfs_pop(bs);
-				bfs_push(bs, !a);
-				break;
-			case '`':
-				a= bfs_pop(bs);
-				b= bfs_pop(bs);
-				bfs_push(bs, b > a); 
-				break;
-			case '^':
-				dirset(&bf->dir, UP);
-				break;
-			case '>':
-				dirset(&bf->dir, RIGHT);
-				break;
-			case '<':
-				dirset(&bf->dir, LEFT);
-				break;
-			case 'v':
-				dirset(&bf->dir, DOWN);
-				break;
-			case '?': /* TODO: test and fix this */
-				srand(78); 
-				dirset(&bf->dir, rand() % 4);
-				break;
-			case '_':
-				a= bfs_pop(bs);
-				dirset(&bf->dir, a ? LEFT : RIGHT);
-				break;
-			case '|':
-				a= bfs_pop(bs);
-				dirset(&bf->dir, a ? UP : DOWN);
-				break;
-			case '"':
-				/* not yet implemented */
-				break;
-			case ':':
-				a= bfs_peek(bs);
-				bfs_push(bs, a);
-				break;
-			case '\\': 
-				a= bfs_pop(bs);
-				b= bfs_pop(bs);
-				bfs_push(bs, a);
-				bfs_push(bs, b);
-				break;
-			case '$':
-				bfs_pop(bs);
-				break;
-			case '.':
-				a= bfs_pop(bs);
-				printf("%d\n", a);
-				break;
-			case ',':
-				a= bfs_pop(bs);
-				printf("%c\n", a);
-				break;
-			case '#':
-				bf_moveip(bf);
-				break;
-			case 'g':
-				a= bfs_pop(bs);
-				b= bfs_pop(bs);
-				bfs_push(bs, bf->code[b][a]);
-				break;
-			case 'p':
-				a= bfs_pop(bs);
-				b= bfs_pop(bs);
-				v= bfs_pop(bs);
-				bf->code[b][a]= v;
-				break;
-			case '&':
-				scanf("%d", &a);
-				printf("entered %d\n", a);
-				bfs_push(bs, a);
-				break;
-			case '~':
-				scanf("%c", &c);
-				bfs_push(bs, c);
-				break;
-			case '@': 
-				exit(EXIT_SUCCESS);
-				break;
+	//printf("[%d]\n", inst);
+	if(bf->command_mode) {
+		if(inst >= '0' && inst <= '9') {
+			bfs_push(bs, inst - '0');
+		} else {
+			switch(inst) {
+				case '+':
+					a= bfs_pop(bs);
+					b= bfs_pop(bs);
+					bfs_push(bs, b + a);
+					break;
+				case '-':
+					a= bfs_pop(bs);
+					b= bfs_pop(bs);
+					bfs_push(bs, b - a);
+					break;
+				case '*':
+					a= bfs_pop(bs);
+					b= bfs_pop(bs);
+					bfs_push(bs, b * a);
+					break;
+				case '/':
+					a= bfs_pop(bs);
+					b= bfs_pop(bs);
+					bfs_push(bs, b / a); /* TODO: ask user if a is 0? */
+					break;
+				case '%':
+					a= bfs_pop(bs);
+					b= bfs_pop(bs);
+					bfs_push(bs, b % a); /* TODO: ask user if a is 0? */
+					break;
+				case '!':
+					a= bfs_pop(bs);
+					bfs_push(bs, !a);
+					break;
+				case '`':
+					a= bfs_pop(bs);
+					b= bfs_pop(bs);
+					bfs_push(bs, b > a); 
+					break;
+				case '^':
+					dirset(&bf->dir, UP);
+					break;
+				case '>':
+					dirset(&bf->dir, RIGHT);
+					break;
+				case '<':
+					dirset(&bf->dir, LEFT);
+					break;
+				case 'v':
+					dirset(&bf->dir, DOWN);
+					break;
+				case '?': /* TODO: test and fix this */
+					dirset(&bf->dir, rand() % 4);
+					break;
+				case '_':
+					a= bfs_pop(bs);
+					dirset(&bf->dir, a ? LEFT : RIGHT);
+					break;
+				case '|':
+					a= bfs_pop(bs);
+					dirset(&bf->dir, a ? UP : DOWN);
+					break;
+				case '"':
+					bf->command_mode= 0;
+					break;
+				case ':':
+					a= bfs_peek(bs);
+					bfs_push(bs, a);
+					break;
+				case '\\': 
+					a= bfs_pop(bs);
+					b= bfs_pop(bs);
+					bfs_push(bs, a);
+					bfs_push(bs, b);
+					break;
+				case '$':
+					bfs_pop(bs);
+					break;
+				case '.':
+					a= bfs_pop(bs);
+					printf("%d", a);
+					break;
+				case ',':
+					a= bfs_pop(bs);
+					printf("%c", a);
+					break;
+				case '#':
+					bf_moveip(bf);
+					break;
+				case 'g':
+					a= bfs_pop(bs);
+					b= bfs_pop(bs);
+					bfs_push(bs, bf->code[b][a]);
+					break;
+				case 'p':
+					a= bfs_pop(bs);
+					b= bfs_pop(bs);
+					v= bfs_pop(bs);
+					bf->code[b][a]= v;
+					break;
+				case '&':
+					scanf("%d", &a);
+					bfs_push(bs, a);
+					break;
+				case '~':
+					scanf("%c", &c);
+					bfs_push(bs, c);
+					break;
+				case '@': 
+					exit(EXIT_SUCCESS);
+					break;
+			}
+		}
+	} else { /* string mode */
+		if(inst == '"') {
+			bf->command_mode= 1;
+		} else {
+			bfs_push(bs, inst);
 		}
 	}
 }
