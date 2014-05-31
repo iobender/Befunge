@@ -57,5 +57,6 @@ void bfs_print(struct befunge_stack * stack) {
 			printf("%c ", elt);
 		}
 	}
+	printf("\n");
 }
 
