@@ -15,4 +15,6 @@ char bfs_peek(struct befunge_stack * stack);
 
 void bfs_destroy(struct befunge_stack * stack);
 
+void bfs_print(struct befunge_stack * stack);
+
 #endif
