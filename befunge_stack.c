@@ -11,7 +11,7 @@ int bfs_init(struct befunge_stack * stack) {
 	return stack->data != NULL;
 }
 
-char bfs_push(struct befunge_stack * stack, char elt) {
+int bfs_push(struct befunge_stack * stack, char elt) {
 	printf("pushing %d\n", elt);
 	/* check if we need more space for stack. Separate into own function */
 	if(stack->size == stack->capacity) {
