@@ -48,15 +48,38 @@ int bf_load_code(struct befunge_program * bf, FILE * file) {
 }
 
 void bf_moveip(struct befunge_program * bf) {
-	bf->ip.row= (bf->ip.row + bf->dir.dy) % PROGRAM_ROWS;
-	bf->ip.col= (bf->ip.col + bf->dir.dx) % PROGRAM_COLS;
+	bf->ip.row= (bf->ip.row + bf->dir.dy + PROGRAM_ROWS) % PROGRAM_ROWS;
+	bf->ip.col= (bf->ip.col + bf->dir.dx + PROGRAM_COLS) % PROGRAM_COLS;
 }
 
 void bf_run(struct befunge_program * bf) {
 	while(1) {
-		/* process instruction */
+		bf_process(bf);
 		printf("(%d %d) going (%d %d)\n", bf->ip.row, bf->ip.col, bf->dir.dy, bf->dir.dx);
 		bf_moveip(bf);
+	}
+}
+
+void bf_process(struct befunge_program * bf) {
+	char inst= bf->code[bf->ip.row][bf->ip.col];
+	if(inst >= '0' && inst <= '9') {
+		bfs_push(&bf->stack, inst - '0');
+	} else {
+		switch(inst) {
+			case '^':
+				dirset(&bf->dir, UP);
+				break;
+			case '>':
+				dirset(&bf->dir, RIGHT);
+				break;
+			case '<':
+				dirset(&bf->dir, LEFT);
+				break;
+			case 'v':
+				dirset(&bf->dir, DOWN);
+				break;
+			
+		}
 	}
 }
 

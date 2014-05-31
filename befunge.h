@@ -35,6 +35,8 @@ void bf_moveip(struct befunge_program * bf);
 
 void bf_run(struct befunge_program * bf);
 
+void bf_process(struct befunge_program * bf);
+
 void bf_destroy(struct befunge_program * bf);
 
 #endif
