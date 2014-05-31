@@ -47,8 +47,17 @@ int bf_load_code(struct befunge_program * bf, FILE * file) {
 	}
 }
 
+void bf_moveip(struct befunge_program * bf) {
+	bf->ip.row= (bf->ip.row + bf->dir.dy) % PROGRAM_ROWS;
+	bf->ip.col= (bf->ip.col + bf->dir.dx) % PROGRAM_COLS;
+}
+
 void bf_run(struct befunge_program * bf) {
-	printf("%c\n", bf->code[bf->ip.row][bf->ip.col]);
+	while(1) {
+		/* process instruction */
+		printf("(%d %d) going (%d %d)\n", bf->ip.row, bf->ip.col, bf->dir.dy, bf->dir.dx);
+		bf_moveip(bf);
+	}
 }
 
 void bf_destroy(struct befunge_program * bf) {
