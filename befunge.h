@@ -25,6 +25,7 @@ struct befunge_program {
 	struct befunge_stack stack; /* stack for data */
 	struct position ip; /* instruction pointer */
 	struct delta dir; /* execution flow direction */
+	int command_mode; /* whether or not we are in command mode or string mode */
 };
 
 int bf_init(struct befunge_program * bf);

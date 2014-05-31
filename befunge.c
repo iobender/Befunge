@@ -30,6 +30,7 @@ int bf_init(struct befunge_program * bf) {
 	bf->ip.row= 0;
 	bf->ip.col= 0;
 	dirset(&bf->dir, RIGHT);
+	bf->command_mode= 1;
 	return 1;
 }
 
