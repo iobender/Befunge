@@ -26,7 +26,7 @@ void dirset(struct delta * dir, enum EDIRECTION where) {
 }
 
 int bf_init(struct befunge_program * bf) {
-	srand(90); 
+	srand(90);  /* TODO: fix this */
 	if(!bfs_init(&bf->stack)) return 0;
 	bf->ip.row= 0;
 	bf->ip.col= 0;
@@ -161,13 +161,19 @@ void bf_process(struct befunge_program * bf) {
 				case 'g':
 					a= bfs_pop(bs);
 					b= bfs_pop(bs);
-					bfs_push(bs, bf->code[b][a]);
+					if(b >= PROGRAM_COLS || a >= PROGRAM_ROWS) {
+						bfs_push(bs, 0);
+					} else {
+						bfs_push(bs, bf->code[b][a]);
+					}
 					break;
 				case 'p':
 					a= bfs_pop(bs);
 					b= bfs_pop(bs);
 					v= bfs_pop(bs);
-					bf->code[b][a]= v;
+					if(b < PROGRAM_COLS && a < PROGRAM_ROWS) {
+						bf->code[b][a]= v;
+					}
 					break;
 				case '&':
 					scanf("%d", &a);
