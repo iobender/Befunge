@@ -1,5 +1,15 @@
-Befunge interpreter. 
+Befunge Interpreter. 
 
 by Matthew Bender
-May 29, 2014
 
+This interpreter is intended to be compliant with Befunge-93 (with possibility to extend to Befunge-98 later).
+
+To use:
+	Download all the .c and .h files here, as well as the Makefile. Then just run 'make' and the executable bfg is created. bfg takes 1 argument, the name of the Befunge file to interpret. 
+
+Some notes on liberties I have taken:
+	-In the Befunge file, code outside of the playfield is ignored.
+	-Popping and peeking from an empty stack returns 0.
+	-The stack consists of signed integers.
+	-Using the 'g' command outside the bounds of the playfield will push 0 onto the stack
+	-Using the 'p' command outside the bounds of the playfield will do nothing
