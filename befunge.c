@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "befunge.h"
 #include "befunge_stack.h"
@@ -45,6 +46,7 @@ int bf_load_code(struct befunge_program * bf, FILE * file) {
 		*strchr(bf->code[row], '\n')= ' ';
 		bf->code[row][strlen(bf->code[row])]= ' ';
 	}
+	return 0;
 }
 
 void bf_moveip(struct befunge_program * bf) {
@@ -114,9 +116,62 @@ void bf_process(struct befunge_program * bf) {
 			case 'v':
 				dirset(&bf->dir, DOWN);
 				break;
-			case '?':
-				srand(NULL);
+			case '?': /* TODO: test and fix this */
+				srand(78); 
 				dirset(&bf->dir, rand() % 4);
+				break;
+			case '_':
+				a= bfs_pop(bs);
+				dirset(&bf->dir, a ? LEFT : RIGHT);
+				break;
+			case '|':
+				a= bfs_pop(bs);
+				dirset(&bf->dir, a ? UP : DOWN);
+				break;
+			case '"':
+				/* not yet implemented */
+				break;
+			case ':':
+				a= bfs_peek(bs);
+				bfs_push(bs, a);
+				break;
+			case '\\': 
+				a= bfs_pop(bs);
+				b= bfs_pop(bs);
+				bfs_push(bs, a);
+				bfs_push(bs, b);
+				break;
+			case '$':
+				bfs_pop(bs);
+				break;
+			case '.':
+				a= bfs_pop(bs);
+				printf("%d\n", a);
+				break;
+			case ',':
+				a= bfs_pop(bs);
+				printf("%c\n", a);
+				break;
+			case '#':
+				bf_moveip(bf);
+				break;
+			case 'g':
+				/* not yet implemented */
+				break;
+			case 'p':
+				/* not yet implemented */
+				break;
+			case '&':
+				scanf("%d", &a);
+				printf("entered %d\n", a);
+				bfs_push(bs, a);
+				break;
+			case '~':
+				scanf("%c", &a);
+				bfs_push(bs, a);
+				break;
+			case '@': 
+				exit(EXIT_SUCCESS);
 				break;
 		}
 	}
