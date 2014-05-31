@@ -64,7 +64,8 @@ void bf_run(struct befunge_program * bf) {
 void bf_process(struct befunge_program * bf) {
 	struct befunge_stack * bs= &bf->stack;
 	char inst= bf->code[bf->ip.row][bf->ip.col];
-	char a, b;
+	int a, b;
+	char c;
 	printf("[%c]\n", inst);
 	if(inst >= '0' && inst <= '9') {
 		bfs_push(bs, inst - '0');
@@ -167,8 +168,8 @@ void bf_process(struct befunge_program * bf) {
 				bfs_push(bs, a);
 				break;
 			case '~':
-				scanf("%c", &a);
-				bfs_push(bs, a);
+				scanf("%c", &c);
+				bfs_push(bs, c);
 				break;
 			case '@': 
 				exit(EXIT_SUCCESS);
