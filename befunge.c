@@ -64,7 +64,7 @@ void bf_run(struct befunge_program * bf) {
 void bf_process(struct befunge_program * bf) {
 	struct befunge_stack * bs= &bf->stack;
 	char inst= bf->code[bf->ip.row][bf->ip.col];
-	int a, b;
+	int a, b, v;
 	char c;
 	printf("[%c]\n", inst);
 	if(inst >= '0' && inst <= '9') {
@@ -157,10 +157,15 @@ void bf_process(struct befunge_program * bf) {
 				bf_moveip(bf);
 				break;
 			case 'g':
-				/* not yet implemented */
+				a= bfs_pop(bs);
+				b= bfs_pop(bs);
+				bfs_push(bs, bf->code[b][a]);
 				break;
 			case 'p':
-				/* not yet implemented */
+				a= bfs_pop(bs);
+				b= bfs_pop(bs);
+				v= bfs_pop(bs);
+				bf->code[b][a]= v;
 				break;
 			case '&':
 				scanf("%d", &a);
@@ -176,7 +181,6 @@ void bf_process(struct befunge_program * bf) {
 				break;
 		}
 	}
-	bfs_print(bs);
 }
 
 void bf_destroy(struct befunge_program * bf) {
