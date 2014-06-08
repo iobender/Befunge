@@ -37,6 +37,7 @@ struct befunge_program {
 	struct position ip; /* instruction pointer */
 	struct delta dir; /* execution flow direction */
 	int command_mode; /* whether or not we are in command mode or string mode */
+	int done; /* if the program is done executing */
 };
 
 /* initializes Befunge program */

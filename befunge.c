@@ -30,6 +30,7 @@ void dirset(struct delta * dir, enum EDIRECTION where) {
 
 /*
  * Initializes the Befunge program structure.
+ * Does not initialize the Befunge code, use bfg_load_code for that
  * Start with a fresh stack,
  * the instruction pointer in the top left,
  * pointing to the right,
@@ -37,18 +38,12 @@ void dirset(struct delta * dir, enum EDIRECTION where) {
  * Returns 1 if successful, else 0.
  */
 int bfg_init(struct befunge_program * bf) {
-	int row, col;
 	if(!bfs_init(&bf->stack)) return 0; /* if stack init fails then fail */
 	bf->ip.row= 0;
 	bf->ip.col= 0;
 	dirset(&bf->dir, RIGHT);
 	bf->command_mode= 1;
-	/* initialize with spaces */
-	for(row= 0; row < PROGRAM_ROWS; row++) {
-		for(col= 0; col < PROGRAM_COLS; col++) {
-			bf->code[row][col]= ' ';
-		}
-	}
+	bf->done= 0;
 	return 1;
 }
 
@@ -58,6 +53,12 @@ int bfg_init(struct befunge_program * bf) {
  */
 void bfg_load_code(struct befunge_program * bf, FILE * file) {
 	int row, col;
+	/* initialize with spaces */
+	for(row= 0; row < PROGRAM_ROWS; row++) {
+		for(col= 0; col < PROGRAM_COLS; col++) {
+			bf->code[row][col]= ' ';
+		}
+	}
 	/* read line by line, until PROGRAM_ROWS lines have been read of EOF */
 	for(row= 0; row < PROGRAM_ROWS; row++) {
 		/* TODO: fix number of chars read */
@@ -90,7 +91,7 @@ void bfg_moveip(struct befunge_program * bf) {
  * The only way to exit is through the '@' character in the Befunge code
  */
 void bfg_run(struct befunge_program * bf) {
-	while(1) {
+	while(!bf->done) {
 		bfg_step(bf);
 	}
 }
@@ -223,7 +224,7 @@ void bfg_process(struct befunge_program * bf) {
 					bfs_push(bs, c);
 					break;
 				case '@': /* end the program */
-					exit(EXIT_SUCCESS);
+					bf->done= 1;
 					break;
 			}
 		}
