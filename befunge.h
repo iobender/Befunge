@@ -3,7 +3,7 @@
  * May 29, 2014
  *
  * declarations for Befunge code interpreter 
- * convention is to name functions starting with bf_
+ * convention is to name functions starting with bfg_
  */
 #ifndef BEFUNGE_H
 #define BEFUNGE_H
@@ -40,21 +40,21 @@ struct befunge_program {
 };
 
 /* initializes Befunge program */
-int bf_init(struct befunge_program * bf);
+int bfg_init(struct befunge_program * bf);
 
 /* reads Befunge code from a file and stores it */
-void bf_load_code(struct befunge_program * bf, FILE * file);
+void bfg_load_code(struct befunge_program * bf, FILE * file);
 
 /* advances the instruction pointer in the right direction */
-void bf_moveip(struct befunge_program * bf);
+void bfg_moveip(struct befunge_program * bf);
 
 /* runs the Befunge program that has been loaded */
-void bf_run(struct befunge_program * bf);
+void bfg_run(struct befunge_program * bf);
 
 /* processes a single instruction */
-void bf_process(struct befunge_program * bf);
+void bfg_process(struct befunge_program * bf);
 
 /* destroys the Befunge program structure and all its memory */
-void bf_destroy(struct befunge_program * bf);
+void bfg_destroy(struct befunge_program * bf);
 
 #endif

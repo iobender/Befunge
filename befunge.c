@@ -36,7 +36,7 @@ void dirset(struct delta * dir, enum EDIRECTION where) {
  * and in command mode.
  * Returns 1 if successful, else 0.
  */
-int bf_init(struct befunge_program * bf) {
+int bfg_init(struct befunge_program * bf) {
 	int row, col;
 	if(!bfs_init(&bf->stack)) return 0; /* if stack init fails then fail */
 	bf->ip.row= 0;
@@ -56,7 +56,7 @@ int bf_init(struct befunge_program * bf) {
  * Loads the Befunge code from the Befunge file into the code field of the struct
  * Reads at most PROGRAM_ROWS lines of PROGRAM_COLS characters from the file
  */
-void bf_load_code(struct befunge_program * bf, FILE * file) {
+void bfg_load_code(struct befunge_program * bf, FILE * file) {
 	int row, col;
 	/* read line by line, until PROGRAM_ROWS lines have been read of EOF */
 	for(row= 0; row < PROGRAM_ROWS; row++) {
@@ -72,7 +72,7 @@ void bf_load_code(struct befunge_program * bf, FILE * file) {
  * specified by bf->dir.
  * Wraps around on all 4 sides 
  */
-void bf_moveip(struct befunge_program * bf) {
+void bfg_moveip(struct befunge_program * bf) {
 	bf->ip.row= (bf->ip.row + bf->dir.dy + PROGRAM_ROWS) % PROGRAM_ROWS;
 	bf->ip.col= (bf->ip.col + bf->dir.dx + PROGRAM_COLS) % PROGRAM_COLS;
 }
@@ -81,17 +81,17 @@ void bf_moveip(struct befunge_program * bf) {
  * Executes a loaded Befunge program
  * The only way to exit is through the '@' character in the Befunge code
  */
-void bf_run(struct befunge_program * bf) {
+void bfg_run(struct befunge_program * bf) {
 	while(1) {
-		bf_process(bf); /* process the character at the current instruction pointer */
-		bf_moveip(bf); /* move the instruction pointer to the next cell */
+		bfg_process(bf); /* process the character at the current instruction pointer */
+		bfg_moveip(bf); /* move the instruction pointer to the next cell */
 	}
 }
 
 /* 
  * Processes a single character instruction 
  */
-void bf_process(struct befunge_program * bf) {
+void bfg_process(struct befunge_program * bf) {
 	struct befunge_stack * bs= &bf->stack; /* the program's stack */
 	char inst= bf->code[bf->ip.row][bf->ip.col]; /* the current instruction */
 	int a, b, v;
@@ -186,7 +186,7 @@ void bf_process(struct befunge_program * bf) {
 					break;
 				case '#': /* skip the next cell */
 					/* move to the next one so the control loop moves the cell we're skipping to */
-					bf_moveip(bf); 
+					bfg_moveip(bf); 
 					break;
 				case 'g': /* pop 2 and push the value at that location */
 					/* if out of bounds, push 0 */
@@ -232,6 +232,6 @@ void bf_process(struct befunge_program * bf) {
 /*
  * Destroys this struct and frees all memory associated with it 
  */
-void bf_destroy(struct befunge_program * bf) {
+void bfg_destroy(struct befunge_program * bf) {
 	bfs_destroy(&bf->stack);
 }
