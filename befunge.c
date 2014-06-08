@@ -37,7 +37,6 @@ void dirset(struct delta * dir, enum EDIRECTION where) {
  * Returns 1 if successful, else 0.
  */
 int bf_init(struct befunge_program * bf) {
-	srand(90);  /* TODO: fix this */
 	if(!bfs_init(&bf->stack)) return 0; /* if stack init fails then fail */
 	bf->ip.row= 0;
 	bf->ip.col= 0;
@@ -129,7 +128,7 @@ void bf_process(struct befunge_program * bf) {
 					b= bfs_pop(bs);
 					bfs_push(bs, b % a); /* TODO: ask user if a is 0? */
 					break;
-				case '!': /* pop 1 and push 1 if it is 0 else 0 */
+				case '!': /* pop 1 and push 1 if it is 0 else 0 (not operator) */
 					a= bfs_pop(bs);
 					bfs_push(bs, !a);
 					break;
@@ -150,7 +149,7 @@ void bf_process(struct befunge_program * bf) {
 				case 'v': /* change direction to down */
 					dirset(&bf->dir, DOWN);
 					break;
-				case '?': /* change direction to of the the 4, randomly */
+				case '?': /* change to a random direction */
 					dirset(&bf->dir, rand() % 4);
 					break;
 				case '_': /* pop 1 and go right if 0 else left */

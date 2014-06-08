@@ -13,3 +13,4 @@ Some notes on liberties I have taken:
 	-The stack consists of signed integers.
 	-Using the 'g' command outside the bounds of the playfield will push 0 onto the stack
 	-Using the 'p' command outside the bounds of the playfield will do nothing
+	-Printing does not print a space as well, like some interpreters I've found
