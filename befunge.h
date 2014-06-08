@@ -45,6 +45,9 @@ int bfg_init(struct befunge_program * bf);
 /* reads Befunge code from a file and stores it */
 void bfg_load_code(struct befunge_program * bf, FILE * file);
 
+/* Interprets a Befunge command and moves the instruction pointer */
+void bfg_step(struct befunge_program * bf);
+
 /* advances the instruction pointer in the right direction */
 void bfg_moveip(struct befunge_program * bf);
 

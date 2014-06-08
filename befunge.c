@@ -68,6 +68,14 @@ void bfg_load_code(struct befunge_program * bf, FILE * file) {
 }
 
 /*
+ * Interprets one Befunge command and moves the instruction pointer
+ */
+void bfg_step(struct befunge_program * bf) {
+		bfg_process(bf); /* process the character at the current instruction pointer */
+		bfg_moveip(bf); /* move the instruction pointer to the next cell */
+}
+
+/*
  * Moves the current instruction pointer 1 cell in the direction
  * specified by bf->dir.
  * Wraps around on all 4 sides 
@@ -83,8 +91,7 @@ void bfg_moveip(struct befunge_program * bf) {
  */
 void bfg_run(struct befunge_program * bf) {
 	while(1) {
-		bfg_process(bf); /* process the character at the current instruction pointer */
-		bfg_moveip(bf); /* move the instruction pointer to the next cell */
+		bfg_step(bf);
 	}
 }
 
