@@ -37,11 +37,18 @@ void dirset(struct delta * dir, enum EDIRECTION where) {
  * Returns 1 if successful, else 0.
  */
 int bf_init(struct befunge_program * bf) {
+	int row, col;
 	if(!bfs_init(&bf->stack)) return 0; /* if stack init fails then fail */
 	bf->ip.row= 0;
 	bf->ip.col= 0;
 	dirset(&bf->dir, RIGHT);
 	bf->command_mode= 1;
+	/* initialize with spaces */
+	for(row= 0; row < PROGRAM_ROWS; row++) {
+		for(col= 0; col < PROGRAM_COLS; col++) {
+			bf->code[row][col]= ' ';
+		}
+	}
 	return 1;
 }
 
@@ -49,14 +56,8 @@ int bf_init(struct befunge_program * bf) {
  * Loads the Befunge code from the Befunge file into the code field of the struct
  * Reads at most PROGRAM_ROWS lines of PROGRAM_COLS characters from the file
  */
-int bf_load_code(struct befunge_program * bf, FILE * file) {
+void bf_load_code(struct befunge_program * bf, FILE * file) {
 	int row, col;
-	/* initialize with space */
-	for(row= 0; row < PROGRAM_ROWS; row++) {
-		for(col= 0; col < PROGRAM_COLS; col++) {
-			bf->code[row][col]= ' ';
-		}
-	}
 	/* read line by line, until PROGRAM_ROWS lines have been read of EOF */
 	for(row= 0; row < PROGRAM_ROWS; row++) {
 		/* TODO: fix number of chars read */
@@ -64,7 +65,6 @@ int bf_load_code(struct befunge_program * bf, FILE * file) {
 		*strchr(bf->code[row], '\n')= ' '; /* get rid of newline */
 		bf->code[row][strlen(bf->code[row])]= ' '; /* get rid of null char */
 	}
-	return 0;
 }
 
 /*

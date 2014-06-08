@@ -43,7 +43,7 @@ struct befunge_program {
 int bf_init(struct befunge_program * bf);
 
 /* reads Befunge code from a file and stores it */
-int bf_load_code(struct befunge_program * bf, FILE * file);
+void bf_load_code(struct befunge_program * bf, FILE * file);
 
 /* advances the instruction pointer in the right direction */
 void bf_moveip(struct befunge_program * bf);
