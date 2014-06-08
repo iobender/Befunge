@@ -8,6 +8,8 @@
 #ifndef BEFUNGE_STACK_H
 #define BEFUNGE_STACK_H
 
+#define DEFAULT_INIT_STACK_CAPACITY 16
+
 /* stack used in a Befunge program, consisting of ints */
 struct befunge_stack {
 	int * data; /* pointer to the stack, implemented as an array */

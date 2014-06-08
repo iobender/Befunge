@@ -8,8 +8,6 @@
 #include <stdlib.h>
 #include "befunge_stack.h"
 
-#define DEFAULT_INIT_STACK_CAPACITY 64
-
 /*
  * Initializes an empty stack
  * Sets size to be 0, 
