@@ -226,6 +226,10 @@ void bfg_process(struct befunge_program * bf) {
 				case '@': /* end the program */
 					bf->done= 1;
 					break;
+				case ' ': /* no-op */
+					break;
+				default: /* all other characters ignored */
+					break;
 			}
 		}
 	} else { /* string mode */
