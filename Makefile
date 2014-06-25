@@ -1,7 +1,7 @@
-all: bef
+all: bfg
 	
-bef: main.o befunge.o befunge_stack.o
-	gcc -o bef main.o befunge.o befunge_stack.o
+bfg: main.o befunge.o befunge_stack.o
+	gcc -o bfg main.o befunge.o befunge_stack.o
 
 main.o: main.c befunge.h
 	gcc -c main.c
