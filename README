@@ -10,6 +10,8 @@ To use:
 	Download all the .c and .h files here, as well as the Makefile. Then just run 'make' and the executable bfg is created. bfg takes 1 argument, the name of the Befunge file to interpret. 
 	You can also run the befunge interpeter manually in C by using bfg_run(). Make sure to initialize the struct befunge_program properly first and cleanup afterwards (see main.c for how to do this). 
 
+Information on how to code in Befunge can be found at en.wikipedia.org/wiki/Befunge
+
 Some notes on liberties I have taken:
 	-In the Befunge file, code outside of the playfield is ignored.
 	-Popping and peeking from an empty stack returns 0.
