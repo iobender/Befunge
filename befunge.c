@@ -94,6 +94,7 @@ void bfg_run(struct befunge_program * bf) {
 	while(!bf->done) {
 		bfg_step(bf);
 	}
+	bfg_destroy(bf);
 }
 
 /* 
