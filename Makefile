@@ -13,5 +13,5 @@ befunge_stack.o: befunge_stack.c befunge_stack.h
 	gcc -c befunge_stack.c
 
 clean:
-	rm -vf *.o bef
+	rm -vf *.o bfg
 
