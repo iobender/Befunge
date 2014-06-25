@@ -53,6 +53,8 @@ int bfg_init(struct befunge_program * bf) {
  */
 void bfg_load_code(struct befunge_program * bf, FILE * file) {
 	int row, col;
+	/* + 3 for (possible) \r, \n, and \0 */
+	char rowbuf[PROGRAM_COLS + 3];
 	/* initialize with spaces */
 	for(row= 0; row < PROGRAM_ROWS; row++) {
 		for(col= 0; col < PROGRAM_COLS; col++) {
@@ -62,9 +64,8 @@ void bfg_load_code(struct befunge_program * bf, FILE * file) {
 	/* read line by line, until PROGRAM_ROWS lines have been read of EOF */
 	for(row= 0; row < PROGRAM_ROWS; row++) {
 		/* TODO: fix number of chars read */
-		if(fgets(bf->code[row], PROGRAM_COLS, file) == NULL) break;
-		*strchr(bf->code[row], '\n')= ' '; /* get rid of newline */
-		bf->code[row][strlen(bf->code[row])]= ' '; /* get rid of null char */
+		if(fgets(rowbuf, PROGRAM_COLS + 3, file) == NULL) break;
+		memcpy(bf->code[row], rowbuf, strlen(rowbuf)); /* copy to playfield */
 	}
 }
 
