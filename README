@@ -1,12 +1,14 @@
 Befunge Interpreter. 
 
 by Matthew Bender
+Last updated 6/25/2014 - Done full compliance with Befunge-93.
+Report any bugs to me@iobender.com
 
 This interpreter is intended to be compliant with Befunge-93 (with possibility to extend to Befunge-98 later).
 
 To use:
 	Download all the .c and .h files here, as well as the Makefile. Then just run 'make' and the executable bfg is created. bfg takes 1 argument, the name of the Befunge file to interpret. 
-	You can also run the befunge interpeter manually in C by using bf_run(). Make sure to initialize the struct befunge_program properly first and cleanup afterwards (see main.c for how to do this). 
+	You can also run the befunge interpeter manually in C by using bfg_run(). Make sure to initialize the struct befunge_program properly first and cleanup afterwards (see main.c for how to do this). 
 
 Some notes on liberties I have taken:
 	-In the Befunge file, code outside of the playfield is ignored.
@@ -16,5 +18,5 @@ Some notes on liberties I have taken:
 	-Using the 'p' command outside the bounds of the playfield will do nothing
 	-Printing does not print a space as well, like some interpreters I've found
 	-The random number generator is seeded only once, at the start of execution. This is not a problem if you are just using the executable bfg. However, if you want to run the befunge interpreter through the provided methods, you will have to seed the RNG yourself. 
-	-To run the same Befunge program 2x, call init and load_code the first time, then run, but the second time, only call init, or fseek to the beginning of the file before passing the file pointer to load_code
+	-To run the same Befunge program 2x, call bfg_init() and bfg_load_code() the first time, then run, but the second time, only call bfg_init(), or fseek() to the beginning of the file before passing the file pointer to bfg_load_code()
 	-Memory allocated will be automatically freed once the Befunge program is done executing
