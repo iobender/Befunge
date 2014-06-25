@@ -17,4 +17,4 @@ Some notes on liberties I have taken:
 	-Printing does not print a space as well, like some interpreters I've found
 	-The random number generator is seeded only once, at the start of execution. This is not a problem if you are just using the executable bfg. However, if you want to run the befunge interpreter through the provided methods, you will have to seed the RNG yourself. 
 	-To run the same Befunge program 2x, call init and load_code the first time, then run, but the second time, only call init, or fseek to the beginning of the file before passing the file pointer to load_code
-
+	-Memory allocated will be automatically freed once the Befunge program is done executing
